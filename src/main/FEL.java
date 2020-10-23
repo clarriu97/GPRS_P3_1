@@ -1,5 +1,6 @@
 package main;
 
+import java.util.Collections;
 import java.util.List;
 
 public class FEL {
@@ -12,9 +13,8 @@ public class FEL {
 
     public void addEvent(Event event){
         list.add(event);
-        //TODO: must sort the list, putting the first event the closest
-
-
+        //Must sort the list, putting the first event the closest
+        Collections.sort(list);
     }
 
     public Event getInminentEvent(){

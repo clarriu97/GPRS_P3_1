@@ -1,6 +1,6 @@
 package main;
 
-public class Event {
+public class Event implements Comparable<Event> {
 
     private String tipo;
     private double tiempoLlegada;
@@ -19,5 +19,14 @@ public class Event {
                 "Tiempo de llegada: " + Double.toString(tiempoLlegada) + "\n" +
                 "Tiempo de servicio: " + Double.toString(tiempoServicio) + "\n" +
                 "Reentrada: " + reentrada);
+    }
+
+    public Double getTiempoLlegada(){
+        return tiempoLlegada;
+    }
+
+    @Override
+    public int compareTo(Event event) {
+        return Double.compare(tiempoLlegada, event.getTiempoLlegada());
     }
 }
