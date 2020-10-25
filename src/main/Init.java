@@ -9,24 +9,53 @@ import java.util.Scanner;
 public class Init {
 
     private static final String fileName = "entrada.txt";
-    private List<Event> eventList;
     private CPD cpd;
+    private FEL fel;
 
     public Init(){
-        eventList = new ArrayList<>();
+        pedirDatos();
+    }
+
+    private void showError() {
+        System.out.println("Ha debido ocurrir un error");
+        pedirDatos();
+    }
+
+    private void pedirDatos(){
         try {
-            File file = new File(fileName);
-            Scanner scanner = new Scanner(file);
-            eventList = new ArrayList();
-            while (scanner.hasNextLine()){
-                String line = scanner.nextLine();
-                String[] lineSplit = line.split(" ");
-                eventList.add(new Event("basic", Double.parseDouble(lineSplit[0]), Double.parseDouble(lineSplit[1]), false));
+            Scanner entrada = new Scanner(System.in);
+            System.out.println("Introduzca los datos");
+            String frase = entrada.nextLine();
+            String[] fraseDividida = frase.split(" ");
+            if (fraseDividida[0].equals("simula") && fraseDividida.length==4){
+                File file = new File(fraseDividida[1]);
+                Scanner scanner = new Scanner(file);
+                fel = new FEL();
+                while (scanner.hasNextLine()){
+                    String line = scanner.nextLine();
+                    String[] lineSplit = line.split(" ");
+                    fel.addEvent(new Event("basic", Double.parseDouble(lineSplit[0]), Double.parseDouble(lineSplit[1]), false));
+                }
+                try{
+                    int numProcesadores = Integer.parseInt(fraseDividida[2]);
+                    int numCola = Integer.parseInt(fraseDividida[3]);
+                    cpd = new CPD(numProcesadores, numCola, fel);
+
+                    while (fel.hasEvent()){
+                        Event event = fel.getInminentEvent();
+                        cpd.processEvent(event);
+                    }
+                    cpd.finishProcessing();
+                } catch (NumberFormatException e){
+                    showError();
+                }
+                fel.print();
+                scanner.close();
+            } else {
+                showError();
             }
-            cpd = new CPD(1, 2, new FEL(eventList));
-            for (Event event: eventList){event.print();}
-            scanner.close();
         } catch (FileNotFoundException e){
+            showError();
             e.printStackTrace();
         }
     }

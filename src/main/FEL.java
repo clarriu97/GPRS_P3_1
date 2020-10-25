@@ -1,5 +1,6 @@
 package main;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -7,18 +8,21 @@ public class FEL {
 
     private List<Event> list;
 
-    public FEL(List list) {
-        this.list = list;
+    public FEL() {
+        list = new ArrayList<>();
     }
 
     public void addEvent(Event event){
         list.add(event);
-        //Must sort the list, putting the first event the closest
         Collections.sort(list);
     }
 
+    public boolean hasEvent(){
+        return !list.isEmpty();
+    }
+
     public Event getInminentEvent(){
-        return list.isEmpty()?null:list.get(0);
+        return list.isEmpty()?null:list.remove(0);
     }
 
     public void print(){
