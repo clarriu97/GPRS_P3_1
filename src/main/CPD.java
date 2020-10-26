@@ -5,16 +5,16 @@ import java.util.List;
 
 public class CPD {
 
-    private List<Event> processors;
+    private Event[] processors;
     private SyncQueue queue;
     private List<Event> listaSalidas;
     private double clock;
     private FEL fel;
 
     public CPD(int numProcessors, int queueSize, FEL fel) {
-        processors = new ArrayList<Event>();
+        processors = new Event[numProcessors];
         for (int i = 0; i<numProcessors; i++){
-            processors.add(null);
+            processors[i] = null;
         }
         queue = new SyncQueue(queueSize);
         listaSalidas = new ArrayList();
@@ -23,15 +23,14 @@ public class CPD {
     }
 
     public void checkFinishedEvents(){
-        for (int i = 0; i<processors.size(); i++){
-            Event event = processors.get(i);
-            if (event != null && event.getTiempoSalida() >= clock){
+        for (int i = 0; i<processors.length; i++){
+            Event event = processors[i];
+            if (event != null && clock >= event.getTiempoSalida()){
                 if (event.isReentrada()){
                     fel.addEvent(new Event(event.getTipo(), event.getTiempoSalida(), event.getTiempoServicio(), false));
                 }
                 listaSalidas.add(event);
-                processors.remove(i);
-                processors.add(i, null);
+                processors[i] = null;
             }
             if (!queue.isEmpty()){
                 queueToProcessor(i);
@@ -47,13 +46,13 @@ public class CPD {
         double lastEventTime = listaSalidas.get(listaSalidas.size()-1).getTiempoSalida();
         event.setTiempoLlegada(Math.max(event.getTiempoLlegada(), lastEventTime));
 
-        processors.add(i, event);
+        processors[i] = null;
     }
 
     public int checkEmptyProcessor(){
         int pos = -1;
-        for (int i = 0; i<processors.size(); i++){
-            if (processors.get(i) == null){
+        for (int i = 0; i<processors.length; i++){
+            if (processors[i] == null){
                 pos = i;
                 break;
             }
@@ -65,17 +64,17 @@ public class CPD {
         while (getNextEventEnd() < event.getTiempoLlegada()){
             updateClock(getNextEventEnd());
         }
-
         if (queue.isEmpty()){
             int result = checkEmptyProcessor();
             if (result >= 0){
                 event.setAccepted(true);
                 event.setTiempoSalida(event.getTiempoLlegada() + event.getTiempoServicio());
-                processors.add(result, event);
+                processors[result] = event;
                 return true;
             }
         }
-        if (queue.put(event)){
+        if (!queue.isFull()){
+            queue.put(event);
             return true;
         } else {
             event.setAccepted(false);
@@ -91,7 +90,7 @@ public class CPD {
         }
         for (Event event: listaSalidas){
             System.out.println(Double.toString(event.getTiempoLlegada())
-                                + Double.toString(event.getTiempoServicio())
+                                + " " + Double.toString(event.getTiempoServicio())
                                 + " ");
             if (event.isAccepted()){
                 System.out.print("0");
@@ -101,8 +100,8 @@ public class CPD {
 
     public boolean isEmpty(){
         boolean finished = true;
-        for (int i = 0; i<processors.size(); i++){
-            if (processors.get(i) != null){finished = false;}
+        for (int i = 0; i<processors.length; i++){
+            if (processors[i] != null){finished = false;}
         }
         return finished;
     }
@@ -112,8 +111,8 @@ public class CPD {
             return Double.MAX_VALUE;
         }
         ArrayList<Double> salidas = new ArrayList();
-        for (int i = 0; i<processors.size(); i++){
-            if (processors.get(i) != null){processors.get(i).getTiempoSalida();}
+        for (int i = 0; i<processors.length; i++){
+            if (processors[i] != null){processors[i].getTiempoSalida();}
         }
         double min = Double.MAX_VALUE;
         for (Double d: salidas){

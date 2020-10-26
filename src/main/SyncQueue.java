@@ -25,12 +25,12 @@ public class SyncQueue<Event> {
         list.clear();
     }
 
-    synchronized public boolean put(main.Event e) {
-        if (list.size()<=maxSize){
-            list.add(e);
-            return true;
-        }
-        return false;
+    public boolean isFull(){
+        return list.size() == maxSize;
+    }
+
+    synchronized public void put(main.Event e) {
+        list.add(e);
     }
 
     public main.Event remove() {

@@ -22,7 +22,9 @@ public class FEL {
     }
 
     public Event getInminentEvent(){
-        return list.isEmpty()?null:list.remove(0);
+        Event event = list.get(0);
+        list.remove(0);
+        return event;
     }
 
     public void print(){
