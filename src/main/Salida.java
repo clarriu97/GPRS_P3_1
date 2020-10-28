@@ -17,7 +17,6 @@ public class Salida {
     }
 
     public void finishProcesing() {
-        Collections.sort(listaSalidas);
         for (Event event: listaSalidas){
             int acepted = 0;
             if (!event.isAcepted()){ acepted = 1;}
