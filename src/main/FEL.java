@@ -17,10 +17,6 @@ public class FEL {
         Collections.sort(eventList);
     }
 
-    public boolean hasEvent(){
-        return !eventList.isEmpty();
-    }
-
     public Event getInminentEvent(boolean remove){
         if (remove){
             Event event = eventList.get(0);

@@ -15,8 +15,12 @@ public class Salida {
         listaSalidas.add(event);
     }
 
-    public void makeFile(){
-
+    public void finishProcesing() {
+        for (Event event: listaSalidas){
+            System.out.println(event.getTiempoLlegada() + " " + event.getTiempoServicio() + " ");
+            if (event.isAcepted()){
+                System.out.print("0");
+            } else {System.out.print("1");}
+        }
     }
-
 }

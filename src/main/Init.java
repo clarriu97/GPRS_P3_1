@@ -42,12 +42,11 @@ public class Init {
                     int numCola = Integer.parseInt(fraseDividida[3]);
                     cpd = new CPD(numProcesadores, numCola, fel);
 
-
-
                 } catch (NumberFormatException e){
                     showError();
                 }
-                fel.print();
+                //Aqui empieza a procesar
+                cpd.process();
             } else {
                 showError();
             }

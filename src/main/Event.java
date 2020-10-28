@@ -48,6 +48,8 @@ public class Event implements Comparable<Event> {
         this.acepted = acepted;
     }
 
+    public boolean isAcepted(){return acepted;}
+
     public void setTiempoLlegada(double tiempoLlegada) {
         this.tiempoLlegada = tiempoLlegada;
         tiempoSalida = tiempoLlegada + tiempoServicio;

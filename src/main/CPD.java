@@ -38,15 +38,18 @@ public class CPD {
             //si hay algun procesador libre, proceso el evento de la cola
             if (!queue.isEmpty()){
                 if (!processorsAreFull()){
-                    processQueueEvent(queue.get());
+                    processQueueEvent();
                 }
             }
 
             //Si hay algun evento de la FEL que toque procesar, lo procesamos
-
+            if (fel.getInminentEvent(false).getTiempoSalida() >= clock){
+                processFELEvent(fel.getInminentEvent(true));
+            }
 
             clock += 0.000001;
         }
+        finishProcesing();
     }
 
     private void processFELEvent(Event event){
@@ -60,8 +63,8 @@ public class CPD {
         }
     }
 
-    private void processQueueEvent(Event event){
-        processors[getFreeProcessor()] = event;
+    private void processQueueEvent(){
+        processors[getFreeProcessor()] = queue.get();
     }
 
     private void processProcessorEvent(Event event, int freePos){
@@ -98,6 +101,10 @@ public class CPD {
             }
         }
         return freeProcessor;
+    }
+
+    private void finishProcesing(){
+        salida.finishProcesing();
     }
 
 }
