@@ -2,13 +2,13 @@ package main;
 
 public class Event implements Comparable<Event> {
 
-    private boolean basic, reentrada, acepted;
+    private boolean premium, reentrada, acepted;
     private double tiempoLlegada;
     private double tiempoServicio;
     private double tiempoSalida;
 
-    public Event(boolean basic, double tiempoLlegada, double tiempoServicio, boolean reentrada) {
-        this.basic = basic;
+    public Event(boolean premium, double tiempoLlegada, double tiempoServicio, boolean reentrada) {
+        this.premium = premium;
         this.tiempoLlegada = tiempoLlegada;
         this.tiempoServicio = tiempoServicio;
         this.reentrada = reentrada;
@@ -17,7 +17,7 @@ public class Event implements Comparable<Event> {
     }
 
     public void print(){
-        System.out.print("Tipo: " + basic + "\n" +
+        System.out.print("Tipo: " + premium + "\n" +
                 "Tiempo de llegada: " + Double.toString(tiempoLlegada) + "\n" +
                 "Tiempo de servicio: " + Double.toString(tiempoServicio) + "\n" +
                 "Reentrada: " + reentrada + "\n\n");

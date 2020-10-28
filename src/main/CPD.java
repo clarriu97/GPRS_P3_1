@@ -76,7 +76,7 @@ public class CPD {
 
     private void processQueueEvent(){
         Event event = queue.get();
-        event.setTiempoSalida(clock);
+        event.setTiempoSalida(clock + event.getTiempoServicio());
         processors[getFreeProcessor()] = event;
     }
 
