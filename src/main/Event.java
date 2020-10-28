@@ -2,15 +2,13 @@ package main;
 
 public class Event implements Comparable<Event> {
 
-    private String tipo;
+    private boolean basic, reentrada, acepted;
     private double tiempoLlegada;
     private double tiempoServicio;
-    private boolean reentrada;
     private double tiempoSalida;
-    private boolean accepted;
 
-    public Event(String tipo, double tiempoLlegada, double tiempoServicio, boolean reentrada) {
-        this.tipo = tipo;
+    public Event(boolean basic, double tiempoLlegada, double tiempoServicio, boolean reentrada) {
+        this.basic = basic;
         this.tiempoLlegada = tiempoLlegada;
         this.tiempoServicio = tiempoServicio;
         this.reentrada = reentrada;
@@ -18,7 +16,7 @@ public class Event implements Comparable<Event> {
     }
 
     public void print(){
-        System.out.print("Tipo: " + tipo + "\n" +
+        System.out.print("Tipo: " + basic + "\n" +
                 "Tiempo de llegada: " + Double.toString(tiempoLlegada) + "\n" +
                 "Tiempo de servicio: " + Double.toString(tiempoServicio) + "\n" +
                 "Reentrada: " + reentrada + "\n\n");
@@ -32,16 +30,8 @@ public class Event implements Comparable<Event> {
         return tiempoSalida;
     }
 
-    public String getTipo() {
-        return tipo;
-    }
-
     public double getTiempoServicio() {
         return tiempoServicio;
-    }
-
-    public boolean isAccepted() {
-        return accepted;
     }
 
     public boolean isReentrada() {
@@ -53,12 +43,8 @@ public class Event implements Comparable<Event> {
         return Double.compare(tiempoLlegada, event.getTiempoLlegada());
     }
 
-    public void setAccepted(boolean accepted) {
-        this.accepted = accepted;
-    }
-
-    public void setTiempoSalida(double tiempoSalida) {
-        this.tiempoSalida = tiempoSalida;
+    public void setAcepted(boolean acepted) {
+        this.acepted = acepted;
     }
 
     public void setTiempoLlegada(double tiempoLlegada) {

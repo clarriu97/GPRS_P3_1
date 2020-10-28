@@ -34,23 +34,20 @@ public class Init {
                 while (scanner.hasNextLine()){
                     String line = scanner.nextLine();
                     String[] lineSplit = line.split(" ");
-                    fel.addEvent(new Event("basic", Double.parseDouble(lineSplit[0]), Double.parseDouble(lineSplit[1]), false));
+                    fel.addEvent(new Event(true, Double.parseDouble(lineSplit[0]), Double.parseDouble(lineSplit[1]), false));
                 }
+                scanner.close();
                 try{
                     int numProcesadores = Integer.parseInt(fraseDividida[2]);
                     int numCola = Integer.parseInt(fraseDividida[3]);
                     cpd = new CPD(numProcesadores, numCola, fel);
 
-                    while (fel.hasEvent()){
-                        Event event = fel.getInminentEvent();
-                        cpd.processEvent(event);
-                    }
-                    cpd.finishProcessing();
+
+
                 } catch (NumberFormatException e){
                     showError();
                 }
                 fel.print();
-                scanner.close();
             } else {
                 showError();
             }

@@ -6,30 +6,30 @@ import java.util.List;
 
 public class FEL {
 
-    private List<Event> list;
+    private List<Event> eventList;
 
     public FEL() {
-        list = new ArrayList<>();
+        eventList = new ArrayList<>();
     }
 
     public void addEvent(Event event){
-        list.add(event);
-        Collections.sort(list);
+        eventList.add(event);
+        Collections.sort(eventList);
     }
 
     public boolean hasEvent(){
-        return !list.isEmpty();
+        return !eventList.isEmpty();
     }
 
     public Event getInminentEvent(){
-        Event event = list.get(0);
-        list.remove(0);
+        Event event = eventList.get(0);
+        eventList.remove(0);
         return event;
     }
 
     public void print(){
-        if (!list.isEmpty()){
-            for (Event event: list){
+        if (!eventList.isEmpty()){
+            for (Event event: eventList){
                 event.print();
             }
         }
