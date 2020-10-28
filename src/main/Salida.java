@@ -1,6 +1,7 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Salida {
@@ -16,11 +17,11 @@ public class Salida {
     }
 
     public void finishProcesing() {
+        Collections.sort(listaSalidas);
         for (Event event: listaSalidas){
-            System.out.println(event.getTiempoLlegada() + " " + event.getTiempoServicio() + " ");
-            if (event.isAcepted()){
-                System.out.print("0");
-            } else {System.out.print("1");}
+            int acepted = 0;
+            if (!event.isAcepted()){ acepted = 1;}
+            System.out.println(event.getTiempoLlegada() + " " + event.getTiempoServicio() + " " + acepted);
         }
     }
 }

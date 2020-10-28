@@ -1,5 +1,7 @@
 package main;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,12 +25,12 @@ public class CPD {
     }
 
     public void process(){
-        while (!fel.isEmpty() && !queue.isEmpty() && !processorsAreEmpty()){
+        while (somethingToProcess()){
 
             //Si ha terminado algun evento de algun procesador, lo proceso
             for (int i = 0; i<processors.length; i++){
                 if (processors[i] != null){
-                    if (processors[i].getTiempoSalida() >= clock){
+                    if (clock >= processors[i].getTiempoSalida()){
                         processProcessorEvent(processors[i], i);
                     }
                 }
@@ -43,13 +45,22 @@ public class CPD {
             }
 
             //Si hay algun evento de la FEL que toque procesar, lo procesamos
-            if (fel.getInminentEvent(false).getTiempoSalida() >= clock){
-                processFELEvent(fel.getInminentEvent(true));
+            if (!fel.isEmpty()){
+                if (clock >= fel.getInminentEvent(false).getTiempoLlegada()){
+                    processFELEvent(fel.getInminentEvent(true));
+                }
             }
 
             clock += 0.000001;
         }
         finishProcesing();
+    }
+
+    private boolean somethingToProcess() {
+        if (!fel.isEmpty()){ return true;}
+        if (!queue.isEmpty()){ return true;}
+        if (!processorsAreEmpty()){ return true;}
+        return false;
     }
 
     private void processFELEvent(Event event){
@@ -64,7 +75,9 @@ public class CPD {
     }
 
     private void processQueueEvent(){
-        processors[getFreeProcessor()] = queue.get();
+        Event event = queue.get();
+        event.setTiempoSalida(clock);
+        processors[getFreeProcessor()] = event;
     }
 
     private void processProcessorEvent(Event event, int freePos){
@@ -95,7 +108,7 @@ public class CPD {
     private int getFreeProcessor(){
         int freeProcessor = -1;
         for (int i = 0; i<processors.length; i++){
-            if (processors[i] != null){
+            if (processors[i] == null){
                 freeProcessor = i;
                 break;
             }
