@@ -18,7 +18,7 @@ public class SyncQueue<Event> {
     }
 
     synchronized public boolean isEmpty() {
-        return size()==0;
+        return list.isEmpty();
     }
 
     synchronized public void clear() {
@@ -33,10 +33,7 @@ public class SyncQueue<Event> {
         list.add(e);
     }
 
-    public main.Event remove() {
-        if (isEmpty()){
-            return null;
-        }
+    public main.Event get() {
         main.Event event = list.get(0);
         list.remove(0);
         return event;

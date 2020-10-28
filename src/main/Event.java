@@ -13,6 +13,7 @@ public class Event implements Comparable<Event> {
         this.tiempoServicio = tiempoServicio;
         this.reentrada = reentrada;
         tiempoSalida = tiempoLlegada + tiempoServicio;
+        acepted = true;
     }
 
     public void print(){
@@ -51,4 +52,5 @@ public class Event implements Comparable<Event> {
         this.tiempoLlegada = tiempoLlegada;
         tiempoSalida = tiempoLlegada + tiempoServicio;
     }
+
 }
