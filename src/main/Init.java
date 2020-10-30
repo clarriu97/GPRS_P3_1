@@ -6,7 +6,6 @@ import java.util.Scanner;
 
 public class Init {
 
-    private static final String fileName = "entrada.txt";
     private CPD cpd;
     private FEL fel;
 
